@@ -14,23 +14,28 @@ setInterval(update, 1000);
 
 const ip = window.location.hostname.toString();
 
+const stun = new URLSearchParams(window.location.search).get("stun");
 // eslint-disable-next-line no-undef
 const rtc_configuration: RTCConfiguration = {
-  bundlePolicy: "max-bundle",
+  bundlePolicy: "balanced",
   iceServers: [
     {
-      urls: `turn:${ip}:3478`,
-      username: "user",
-      credential: "pwd",
-      credentialType: "password",
-    },
-    {
-      urls: `stun:${ip}:3478`,
-    },
+      urls: "stun://stun.l.google.com:19302",
+    }
   ],
+  iceTransportPolicy: "all",
+  rtcpMuxPolicy: "require",
 };
 
-const manager = reactive(new Manager(ip, 6021, rtc_configuration));
+// get signalling port from query string
+const port = window.location.search
+  .substring(1)
+  .split("&")
+  .map((v) => v.split("="))
+  .filter((v) => v[0] === "port")
+  .map((v) => Number(v[1]))[0];
+
+const manager = reactive(new Manager(ip, port || 6021, rtc_configuration));
 </script>
 
 <template>
