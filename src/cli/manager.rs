@@ -31,6 +31,14 @@ struct Args {
     #[arg(long, value_name = "stun://IP>:<PORT", default_value = DEFAULT_STUN_ENDPOINT)]
     stun_server: String,
 
+    /// Sets the address for the Signalling server API server
+    #[arg(
+        long,
+        value_name = "ws://IP>:<PORT",
+        default_value = "ws://0.0.0.0:6021"
+    )]
+    signalling_server: String,
+
     /// Turns all log categories up to Debug, for more information check RUST_LOG env variable.
     #[arg(short, long)]
     verbose: bool,
@@ -136,6 +144,11 @@ pub fn server_address() -> String {
 // Return the desired address for the REST API
 pub fn stun_server_address() -> String {
     MANAGER.clap_matches.stun_server.clone()
+}
+
+// Return the desired address for the REST API
+pub fn signalling_server_address() -> String {
+    MANAGER.clap_matches.signalling_server.clone()
 }
 
 pub fn vehicle_ddns() -> Option<String> {
