@@ -322,7 +322,7 @@ impl WebRTCSink {
                             format!("webrtcbin-{}", bind.session_id).as_str(),
                         )
                         .property("async-handling", true)
-                        .property("bundle-policy", gst_webrtc::WebRTCBundlePolicy::MaxBundle) // https://webrtcstandards.info/sdp-bundle/
+                        .property("bundle-policy", gst_webrtc::WebRTCBundlePolicy::MaxCompat) // https://webrtcstandards.info/sdp-bundle/
                         .property("latency", 0u32)
                         .property_from_str(
                             "stun-server",
