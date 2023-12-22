@@ -3,6 +3,7 @@ use clap;
 use std::sync::Arc;
 use tracing::error;
 
+use crate::stream::webrtc::turn_server::DEFAULT_STUN_ENDPOINT;
 use crate::{custom, stream::gst::utils::PluginRankConfig};
 
 use clap::Parser;
@@ -25,6 +26,10 @@ struct Args {
     /// Sets the address for the REST API server
     #[arg(long, value_name = "IP>:<PORT", default_value = "0.0.0.0:6020")]
     rest_server: String,
+
+    /// Sets the address for the stun server
+    #[arg(long, value_name = "stun://IP>:<PORT", default_value = DEFAULT_STUN_ENDPOINT)]
+    stun_server: String,
 
     /// Turns all log categories up to Debug, for more information check RUST_LOG env variable.
     #[arg(short, long)]
@@ -126,6 +131,11 @@ pub fn log_path() -> String {
 // Return the desired address for the REST API
 pub fn server_address() -> String {
     MANAGER.clap_matches.rest_server.clone()
+}
+
+// Return the desired address for the REST API
+pub fn stun_server_address() -> String {
+    MANAGER.clap_matches.stun_server.clone()
 }
 
 pub fn vehicle_ddns() -> Option<String> {
