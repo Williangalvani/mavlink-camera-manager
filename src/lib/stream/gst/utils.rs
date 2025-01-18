@@ -118,7 +118,7 @@ pub async fn get_encode_from_stream_uri(stream_uri: &url::Url) -> Option<VideoEn
         "rtsp" => {
             format!(
                 concat!(
-                    "rtspsrc location={location} is-live=true latency=0",
+                    "rtspsrc location={location} is-live=true force-non-compliant-url=true latency=0",
                     " ! typefind name=typefinder minimum=1",
                     " ! fakesink name=fakesink sync=false"
                 ),
